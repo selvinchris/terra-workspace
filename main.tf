@@ -1,19 +1,29 @@
-// main.tf
-terraform {
-  required_providers {
-    random = {
-      source = "hashicorp/random"
+provider "aws" {
+
+    region = "us-east-1"
+  
+}
+
+resource "aws_instance" "test1" {
+
+    ami = "ami-00a929b66ed6e0de6"
+    instance_type = "t2.micro"
+
+    tags = {
+        Name= "testing_instance"
     }
-  }
+  
 }
 
-provider "random" {}
+output "instance_id" {
 
-resource "random_pet" "name" {
-  length    = 2
-  separator = "-"
-}
+    value= aws_instance.test1.id
+} 
+output "public_ip" {
 
-output "pet_name" {
-  value = random_pet.name.id
-}
+    value= aws_instance.test1.public_ip
+} 
+output "instance_name" {
+
+    value= aws_instance.test1.tags["Name"]
+} 
